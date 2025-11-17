@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explicación Interactiva del Navbar - Para Principiantes</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            opacity: 0;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: 'CÓDIGO';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .keyword { color: #569cd6; }
+        .function { color: #dcdcaa; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; font-style: italic; }
+        .component { color: #4ec9b0; }
+        .property { color: #9cdcfe; }
+
+        .explanation {
+            background: #f8f9ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .explanation ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .visual-demo {
+            background: #000;
+            padding: 40px;
+            border-radius: 10px;
+            margin: 30px 0;
+            position: relative;
+            min-height: 300px;
+        }
+
+        .demo-nav {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: black;
+            color: rgba(255,255,255,0.8);
+            padding: 112px 40px;
+            transform: translateX(100%);
+            z-index: 1000;
+        }
+
+        .demo-link {
+            font-size: 3em;
+            text-transform: uppercase;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        .demo-link:hover {
+            color: white;
+        }
+
+        .highlight-box {
+            border: 3px dashed #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .interactive-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .interactive-button:hover {
+            transform: scale(1.05);
+        }
+
+        .interactive-button:active {
+            transform: scale(0.95);
+        }
+
+        .icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .tip::before {
+            content: '💡 TIP: ';
+            font-weight: bold;
+            color: #ff9800;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.1em;
+        }
+
+        .animated-ref {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #4ec9b0;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            .section {
+                padding: 20px;
+            }
+            .demo-nav {
+                width: 100%;
+            }
+            .demo-link {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Entendiendo el Navbar de React</h1>
+        <p>Una guía interactiva y visual para principiantes</p>
+    </div>
+
+    <div class="container">
+        <!-- Sección 1: Introducción -->
+        <div class="section" id="section1">
+            <h2><span class="section-number">1</span> ¿Qué es este código?</h2>
+            <div class="explanation">
+                <p>Este archivo crea un <strong>menú de navegación</strong> (Navbar) para tu sitio web. Es como el menú que ves en la parte superior o lateral de las páginas web.</p>
+                <br>
+                <p><strong>¿Qué hace?</strong></p>
+                <ul>
+                    <li>Muestra 5 enlaces: Home, Services, About, Work, Contact</li>
+                    <li>Está fijo en la pantalla (no se mueve cuando haces scroll)</li>
+                    <li>Tiene un fondo negro con texto blanco</li>
+                    <li>Los enlaces cambian de color cuando pasas el mouse sobre ellos</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sección 2: Imports -->
+        <div class="section" id="section2">
+            <h2><span class="section-number">2</span> Los Imports - Trayendo Herramientas</h2>
+            
+            <div class="code-block">
+<span class="keyword">import</span> <span class="component">React</span>, {<span class="function">useRef</span>} <span class="keyword">from</span> <span class="string">"react"</span>;
+            </div>
+
+            <div class="explanation">
+                <h3>🔧 ¿Qué significa esto?</h3>
+                <p>Piensa en esto como <strong>traer herramientas a tu caja de herramientas</strong>:</p>
+                <ul>
+                    <li><strong>React</strong>: La biblioteca principal para crear interfaces de usuario</li>
+                    <li><strong>useRef</strong>: Un "gancho" (hook) especial que te permite "agarrar" elementos del DOM para manipularlos después</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                Es como cuando vas a cocinar: primero sacas los ingredientes y utensilios que necesitas (imports), luego cocinas (escribes el código).
+            </div>
+        </div>
+
+        <!-- Sección 3: useRef -->
+        <div class="section" id="section3">
+            <h2><span class="section-number">3</span> useRef - Creando Referencias</h2>
+            
+            <div class="code-block">
+<span class="keyword">const</span> <span class="property">navRef</span> = <span class="function">useRef</span>(<span class="keyword">null</span>);
+<span class="keyword">const</span> <span class="property">linksRef</span> = <span class="function">useRef</span>([]);
+            </div>
+
+            <div class="explanation">
+                <h3>🎯 ¿Qué es un "ref"?</h3>
+                <p>Un <strong>ref</strong> es como una <strong>etiqueta con nombre</strong> que pegas en un elemento de tu página web. Esto te permite encontrarlo y modificarlo después.</p>
+                <br>
+                <p><strong>En este código:</strong></p>
+                <ul>
+                    <li><span class="animated-ref">navRef</span>: Una etiqueta para el contenedor principal del navbar</li>
+                    <li><span class="animated-ref">linksRef</span>: Un array de etiquetas para cada uno de los 5 enlaces</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <strong>Analogía:</strong> Es como poner post-its con nombres en diferentes partes de tu habitación para poder encontrarlas rápido:
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Post-it "navRef" → en la puerta (el navbar completo)</li>
+                    <li>Post-its "linksRef[0]", "linksRef[1]"... → en cada estante (cada enlace)</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <strong>¿Por qué usar refs?</strong> Para hacer animaciones, medir tamaños, o cambiar cosas directamente sin necesidad de re-renderizar todo el componente.
+            </div>
+        </div>
+
+        <!-- Sección 4: La Estructura JSX -->
+        <div class="section" id="section4">
+            <h2><span class="section-number">4</span> JSX - El HTML de React</h2>
+            
+            <div class="code-block">
+<span class="keyword">return</span> (
+    &lt;<span class="component">nav</span> <span class="property">ref</span>={navRef} <span class="property">className</span>=<span class="string">"..."</span>&gt;
+        &lt;<span class="component">div</span>&gt;
+            <span class="comment">// Aquí van los enlaces</span>
+        &lt;/<span class="component">div</span>&gt;
+    &lt;/<span class="component">nav</span>&gt;
+);
+            </div>
+
+            <div class="explanation">
+                <h3>📝 ¿Qué es JSX?</h3>
+                <p>JSX es una forma de escribir HTML dentro de JavaScript. Es como escribir una receta en tu idioma favorito.</p>
+                <br>
+                <p><strong>Elementos importantes:</strong></p>
+                <ul>
+                    <li><strong>&lt;nav&gt;</strong>: Etiqueta HTML para navegación</li>
+                    <li><strong>ref={navRef}</strong>: Conecta la etiqueta que creamos antes</li>
+                    <li><strong>className</strong>: En React, así se añaden clases CSS (no "class" sino "className")</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sección 5: Las Clases CSS (Tailwind) -->
+        <div class="section" id="section5">
+            <h2><span class="section-number">5</span> Clases CSS - Dándole Estilo</h2>
+            
+            <div class="code-block">
+<span class="property">className</span>=<span class="string">"fixed z-50 flex flex-col w-full h-full 
+           bg-black text-white/80 px-10 py-28 
+           md:w-1/2 md:left-1/2"</span>
+            </div>
+
+            <div class="explanation">
+                <h3>🎨 Desglose de las clases Tailwind:</h3>
+                <ul>
+                    <li><strong>fixed</strong>: El navbar se queda fijo en la pantalla (no se mueve al hacer scroll)</li>
+                    <li><strong>z-50</strong>: Aparece por encima de otros elementos (como capas en Photoshop)</li>
+                    <li><strong>flex flex-col</strong>: Organiza los elementos en columna vertical</li>
+                    <li><strong>w-full h-full</strong>: Ocupa todo el ancho y alto de la pantalla</li>
+                    <li><strong>bg-black</strong>: Fondo negro</li>
+                    <li><strong>text-white/80</strong>: Texto blanco con 80% de opacidad (un poco transparente)</li>
+                    <li><strong>px-10 py-28</strong>: Espaciado interno (padding)</li>
+                    <li><strong>md:w-1/2</strong>: En pantallas medianas, solo ocupa la mitad del ancho</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                Tailwind CSS es como tener etiquetas pre-hechas para estilos. En vez de escribir CSS tradicional, usas clases que ya tienen el estilo definido.
+            </div>
+        </div>
+
+        <!-- Sección 6: El Map - Creando los Enlaces -->
+        <div class="section" id="section6">
+            <h2><span class="section-number">6</span> .map() - Creando Enlaces Automáticamente</h2>
+            
+            <div class="code-block">
+{[<span class="string">"home"</span>,<span class="string">"services"</span>,<span class="string">"about"</span>,<span class="string">"work"</span>,<span class="string">"contact"</span>].<span class="function">map</span>(
+    (<span class="property">section</span>, <span class="property">index</span>) => (
+        &lt;<span class="component">div</span> <span class="property">key</span>={index} <span class="property">ref</span>={(el) => (linksRef.current[index] = el)}&gt;
+            &lt;<span class="component">a</span>&gt;{section}&lt;/<span class="component">a</span>&gt;
+        &lt;/<span class="component">div</span>&gt;
+    )
+)}
+            </div>
+
+            <div class="explanation">
+                <h3>🔄 ¿Qué hace .map()?</h3>
+                <p><strong>.map()</strong> es una función que recorre cada elemento de un array y crea algo nuevo con cada uno.</p>
+                <br>
+                <p><strong>Paso a paso:</strong></p>
+                <ul>
+                    <li><strong>Array inicial:</strong> ["home", "services", "about", "work", "contact"]</li>
+                    <li><strong>Para cada texto</strong> (section), crea un enlace &lt;a&gt;</li>
+                    <li><strong>index</strong>: Es la posición (0, 1, 2, 3, 4)</li>
+                    <li><strong>key={index}</strong>: React necesita una clave única para cada elemento</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <strong>Analogía de fábrica:</strong>
+                <br><br>
+                Imagina una cinta transportadora donde pones 5 piezas (las palabras). La máquina .map() toma cada pieza y la transforma en un producto terminado (un enlace &lt;a&gt;).
+                <br><br>
+                Entrada: "home" → Salida: &lt;a&gt;home&lt;/a&gt;
+            </div>
+
+            <div class="tip">
+                <strong>Nota de mejora:</strong> Usar <code>key={index}</code> funciona, pero es mejor usar <code>key={section}</code> (el texto mismo) porque es más único y estable.
+            </div>
+        </div>
+
+        <!-- Sección 7: Los Enlaces -->
+        <div class="section" id="section7">
+            <h2><span class="section-number">7</span> Los Enlaces &lt;a&gt;</h2>
+            
+            <div class="code-block">
+&lt;<span class="component">a</span> <span class="property">className</span>=<span class="string">"transition-all duration-300 
+           cursor-pointer hover:text-white"</span>&gt;
+    {section}
+&lt;/<span class="component">a</span>&gt;
+            </div>
+
+            <div class="explanation">
+                <h3>🔗 Desglose del enlace:</h3>
+                <ul>
+                    <li><strong>transition-all duration-300</strong>: Animación suave de 300 milisegundos para cualquier cambio</li>
+                    <li><strong>cursor-pointer</strong>: El cursor se vuelve una manita cuando pasas sobre él</li>
+                    <li><strong>hover:text-white</strong>: Cuando pasas el mouse, el texto se vuelve blanco (100% opaco)</li>
+                    <li><strong>{section}</strong>: Muestra el texto ("home", "services", etc.)</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <strong>Problema:</strong> Este enlace no tiene <code>href</code>, así que no navega a ningún lado. Para arreglarlo, deberías añadir <code>href="#home"</code> o manejar clicks con JavaScript.
+            </div>
+        </div>
+
+        <!-- Sección 8: Demo Visual Interactivo -->
+        <div class="section" id="section8">
+            <h2><span class="section-number">8</span> 🎬 Demo Visual Interactivo</h2>
+            
+            <div class="explanation">
+                <p>Haz clic en el botón para ver cómo se vería el navbar en acción:</p>
+            </div>
+
+            <button class="interactive-button" id="showNavBtn">
+                ✨ Mostrar Navbar Animado
+            </button>
+
+            <button class="interactive-button" id="hideNavBtn" style="display: none; background: #e74c3c;">
+                ❌ Cerrar Navbar
+            </button>
+
+            <div class="visual-demo">
+                <p style="color: white; text-align: center; font-size: 1.2em;">
+                    👆 Haz clic en el botón para ver la animación del navbar
+                </p>
+            </div>
+        </div>
+
+        <!-- Sección 9: Cómo Funciona Todo Junto -->
+        <div class="section" id="section9">
+            <h2><span class="section-number">9</span> 🧩 Cómo Funciona Todo Junto</h2>
+            
+            <div class="explanation">
+                <h3>Flujo completo del código:</h3>
+                <ol style="line-height: 2; margin-left: 20px;">
+                    <li><strong>Importar React y useRef</strong> → Traer las herramientas necesarias</li>
+                    <li><strong>Crear el componente Navbar</strong> → Definir la función que genera el menú</li>
+                    <li><strong>Crear referencias (refs)</strong> → Preparar etiquetas para identificar elementos</li>
+                    <li><strong>Return JSX</strong> → Devolver la estructura HTML del navbar</li>
+                    <li><strong>Elemento &lt;nav&gt;</strong> → Contenedor principal con estilos</li>
+                    <li><strong>Array.map()</strong> → Crear 5 enlaces automáticamente</li>
+                    <li><strong>Asignar refs</strong> → Poner etiquetas en cada enlace para futuras animaciones</li>
+                    <li><strong>Estilos hover</strong> → Efectos visuales cuando pasas el mouse</li>
+                    <li><strong>Exportar</strong> → Hacer que el componente esté disponible para otros archivos</li>
+                </ol>
+            </div>
+
+            <div class="highlight-box">
+                <strong>💡 Para recordar:</strong>
+                <br><br>
+                Este navbar es como un robot que se construye a sí mismo:
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Le das una lista de nombres ["home", "services", ...]</li>
+                    <li>Él crea automáticamente un enlace para cada uno</li>
+                    <li>Los pone todos en una caja negra (el &lt;nav&gt;)</li>
+                    <li>Les añade efectos bonitos cuando pasas el mouse</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sección 10: Posibles Mejoras -->
+        <div class="section" id="section10">
+            <h2><span class="section-number">10</span> 🚀 Mejoras Sugeridas</h2>
+            
+            <div class="explanation">
+                <h3>Cosas que podrías mejorar en este código:</h3>
+                <ul>
+                    <li><strong>Añadir href a los enlaces:</strong>
+                        <div class="code-block" style="margin-top: 10px;">
+&lt;<span class="component">a</span> <span class="property">href</span>=<span class="string">{`#${section}`}</span>&gt;{section}&lt;/<span class="component">a</span>&gt;
+                        </div>
+                    </li>
+                    <li><strong>Usar &lt;ul&gt; y &lt;li&gt; para mejor semántica:</strong>
+                        <div class="code-block" style="margin-top: 10px;">
+&lt;<span class="component">ul</span>&gt;
+    {sections.<span class="function">map</span>(section => (
+        &lt;<span class="component">li</span> <span class="property">key</span>={section}&gt;&lt;<span class="component">a</span>&gt;{section}&lt;/<span class="component">a</span>&gt;&lt;/<span class="component">li</span>&gt;
+    ))}
+&lt;/<span class="component">ul</span>&gt;
+                        </div>
+                    </li>
+                    <li><strong>Usar el texto como key en vez del index:</strong> <code>key={section}</code></li>
+                    <li><strong>Añadir aria-label para accesibilidad:</strong> <code>aria-label="Main navigation"</code></li>
+                    <li><strong>Usar los refs para animaciones con GSAP o Framer Motion</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sección Final: Resumen -->
+        <div class="section" id="section11">
+            <h2><span class="section-number">✅</span> Resumen Final</h2>
+            
+            <div class="explanation">
+                <h3>Lo que aprendiste:</h3>
+                <ul>
+                    <li>✅ Qué son los <strong>imports</strong> y para qué sirven</li>
+                    <li>✅ Qué es <strong>useRef</strong> y cómo se usa para "agarrar" elementos</li>
+                    <li>✅ Cómo funciona <strong>JSX</strong> (HTML en React)</li>
+                    <li>✅ Qué son las <strong>clases de Tailwind CSS</strong></li>
+                    <li>✅ Cómo funciona <strong>.map()</strong> para crear elementos dinámicamente</li>
+                    <li>✅ Cómo se crean <strong>efectos hover</strong> con Tailwind</li>
+                    <li>✅ La estructura completa de un componente React</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h3 style="color: #667eea; margin-bottom: 10px;">🎯 Concepto Clave</h3>
+                <p>Un componente de React es como una <strong>receta reutilizable</strong>:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Defines los ingredientes (imports, variables)</li>
+                    <li>Describes cómo combinarlos (JSX, lógica)</li>
+                    <li>Lo exportas para usarlo en otros lugares</li>
+                    <li>Cada vez que lo usas, obtienes el mismo resultado</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <strong>Siguiente paso:</strong> Intenta modificar el código original. Cambia los colores, añade más enlaces, o experimenta con diferentes efectos de hover. ¡La mejor forma de aprender es practicando!
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🎓 Sigue practicando y experimentando. ¡Cada línea de código que escribes te hace mejor programador!</p>
+        <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">Creado con ❤️ para ayudar a principiantes a entender React</p>
+    </div>
+
+    <!-- Navbar Demo -->
+    <div class="demo-nav" id="demoNav">
+        <div id="demoLinks">
+            <div class="demo-link">home</div>
+            <div class="demo-link">services</div>
+            <div class="demo-link">about</div>
+            <div class="demo-link">work</div>
+            <div class="demo-link">contact</div>
+        </div>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animación del header
+        gsap.to('.header h1', {
+            opacity: 1,
+            duration: 1,
+            delay: 0.3
+        });
+
+        gsap.to('.header p', {
+            opacity: 1,
+            duration: 1,
+            delay: 0.6
+        });
+
+        // Animaciones de las secciones al hacer scroll
+        gsap.utils.toArray('.section').forEach((section, index) => {
+            gsap.to(section, {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        // Animación de los animated-ref
+        gsap.utils.toArray('.animated-ref').forEach((ref, index) => {
+            gsap.from(ref, {
+                scale: 0,
+                rotation: 360,
+                duration: 0.6,
+                delay: index * 0.2,
+                scrollTrigger: {
+                    trigger: ref,
+                    start: 'top 90%'
+                }
+            });
+        });
+
+        // Demo interactivo del navbar
+        const showBtn = document.getElementById('showNavBtn');
+        const hideBtn = document.getElementById('hideNavBtn');
+        const demoNav = document.getElementById('demoNav');
+        const demoLinks = document.querySelectorAll('.demo-link');
+
+        let navVisible = false;
+
+        showBtn.addEventListener('click', () => {
+            navVisible = true;
+            showBtn.style.display = 'none';
+            hideBtn.style.display = 'inline-block';
+
+            // Animar el navbar entrando
+            gsap.to(demoNav, {
+                x: 0,
+                duration: 0.6,
+                ease: 'power2.out'
+            });
+
+            // Animar cada enlace
+            gsap.to(demoLinks, {
+                opacity: 1,
+                x: 0,
+                duration: 0.4,
+                stagger: 0.1,
+                delay: 0.3,
+                ease: 'power2.out'
+            });
+        });
+
+        hideBtn.addEventListener('click', () => {
+            navVisible = false;
+
+            // Animar enlaces saliendo
+            gsap.to(demoLinks, {
+                opacity: 0,
+                x: 50,
+                duration: 0.3,
+                stagger: 0.05
+            });
+
+            // Animar navbar saliendo
+            gsap.to(demoNav, {
+                x: '100%',
+                duration: 0.6,
+                delay: 0.3,
+                ease: 'power2.in',
+                onComplete: () => {
+                    showBtn.style.display = 'inline-block';
+                    hideBtn.style.display = 'none';
+                }
+            });
+        });
+
+        // Efecto hover en los demo links
+        demoLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                gsap.to(link, {
+                    x: 20,
+                    color: 'white',
+                    duration: 0.3
+                });
+            });
+
+            link.addEventListener('mouseleave', () => {
+                gsap.to(link, {
+                    x: 0,
+                    color: 'rgba(255,255,255,0.8)',
+                    duration: 0.3
+                });
+            });
+        });
+
+        // Animación de entrada suave para los botones
+        gsap.from('.interactive-button', {
+            scale: 0,
+            duration: 0.5,
+            scrollTrigger: {
+                trigger: '#section8',
+                start: 'top 70%'
+            }
+        });
+
+        // Efecto de pulso en los números de sección
+        gsap.to('.section-number', {
+            scale: 1.1,
+            duration: 0.8,
+            yoyo: true,
+            repeat: -1,
+            stagger: {
+                each: 0.2,
+                repeat: -1,
+                repeatDelay: 3
+            }
+        });
+
+        // Animación de código apareciendo
+        gsap.utils.toArray('.code-block').forEach(block => {
+            gsap.from(block, {
+                opacity: 0,
+                x: -50,
+                duration: 0.6,
+                scrollTrigger: {
+                    trigger: block,
+                    start: 'top 85%'
+                }
+            });
+        });
+
+        // Efecto parallax suave en el header
+        gsap.to('.header', {
+            y: 100,
+            opacity: 0.5,
+            scrollTrigger: {
+                trigger: '.header',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+
+        console.log('🎉 ¡Guía interactiva cargada! Haz scroll para explorar.');
+    </script>
+</body>
+</html>
