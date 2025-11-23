@@ -1,0 +1,91 @@
+{
+  "hash": "24023d53",
+  "configHash": "a5141de5",
+  "lockfileHash": "0ed6b3ef",
+  "browserHash": "dc0ddcf9",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "0a7ba98d",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "0d882f0e",
+      "needsInterop": true
+    },
+    "lenis/react": {
+      "src": "../../node_modules/lenis/dist/lenis-react.mjs",
+      "file": "lenis_react.js",
+      "fileHash": "b120b888",
+      "needsInterop": false
+    },
+    "@gsap/react": {
+      "src": "../../node_modules/@gsap/react/src/index.js",
+      "file": "@gsap_react.js",
+      "fileHash": "3b780cc4",
+      "needsInterop": false
+    },
+    "gsap": {
+      "src": "../../node_modules/gsap/index.js",
+      "file": "gsap.js",
+      "fileHash": "cdd53a48",
+      "needsInterop": false
+    },
+    "gsap/all": {
+      "src": "../../node_modules/gsap/all.js",
+      "file": "gsap_all.js",
+      "fileHash": "1466cffa",
+      "needsInterop": false
+    },
+    "react-responsive": {
+      "src": "../../node_modules/react-responsive/dist/esm/index.js",
+      "file": "react-responsive.js",
+      "fileHash": "ba3527c0",
+      "needsInterop": false
+    },
+    "gsap/ScrollTrigger": {
+      "src": "../../node_modules/gsap/ScrollTrigger.js",
+      "file": "gsap_ScrollTrigger.js",
+      "fileHash": "c3abac3f",
+      "needsInterop": false
+    },
+    "@iconify/react/dist/iconify.js": {
+      "src": "../../node_modules/@iconify/react/dist/iconify.js",
+      "file": "@iconify_react_dist_iconify__js.js",
+      "fileHash": "93406bd4",
+      "needsInterop": false
+    },
+    "react-scroll": {
+      "src": "../../node_modules/react-scroll/modules/index.js",
+      "file": "react-scroll.js",
+      "fileHash": "d74ad4e6",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-7BTQE24S": {
+      "file": "chunk-7BTQE24S.js"
+    },
+    "chunk-7J7MMCTC": {
+      "file": "chunk-7J7MMCTC.js"
+    },
+    "chunk-BPNLQR77": {
+      "file": "chunk-BPNLQR77.js"
+    },
+    "chunk-PNDONJFS": {
+      "file": "chunk-PNDONJFS.js"
+    },
+    "chunk-UNLUE3XC": {
+      "file": "chunk-UNLUE3XC.js"
+    },
+    "chunk-KUKLQ6W4": {
+      "file": "chunk-KUKLQ6W4.js"
+    },
+    "chunk-5WRI5ZAA": {
+      "file": "chunk-5WRI5ZAA.js"
+    }
+  }
+}
