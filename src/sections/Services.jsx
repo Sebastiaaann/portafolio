@@ -30,7 +30,7 @@ const Services = () => {
     });
   }, []);
   return (
-    <section id="services" className="min-h-screen bg-black rounded-t-4xl ">
+    <section id="servicios" className="min-h-screen bg-black rounded-t-4xl ">
       <AnimatedHeaderSection
         subTitle={" Optimizacion - Control - Seguridad - Eficiencia"}
         title={"Servicios"}

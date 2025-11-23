@@ -5,15 +5,15 @@ import gsap from 'gsap';
 import { AnimatedHeaderSection } from '../components/AnimatedHeaderSection';
 
 const Hero = () => {
-    const text = `Sistema integral de administración vehicular
-que revoluciona la gestión de flotas mediante
-tecnología moderna y análisis en tiempo real.`;
+    const text = `Plataforma inteligente de logística y transporte
+que optimiza tus operaciones mediante IA avanzada
+y control total de flota en tiempo real.`;
   
     return (
-        <section id="home" className='flex flex-col justify-end min-h-screen bg-white'> 
+        <section id="inicio" className='flex flex-col justify-end min-h-screen bg-white'> 
             <AnimatedHeaderSection 
-                subTitle={"Fleet Technology"}
-                title={"FM"}
+                subTitle={"Logística Inteligente"}
+                title={"FleetMaster"}
                 text={text}
                 textColor={"text-black"}
             />
